@@ -22,6 +22,17 @@ class Map {
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     ];
   }
+
+  hasWallAt(x, y) {
+    if (x < 0 || x > WINDOW_WIDTH || y < 0 || y > WINDOW_HEIGHT) {
+      return true; // 맵의 범위 안에 들어있는지 파악
+    }
+    // 현재 위치를 타일 사이즈로 나누어 int 형으로 치환해 인덱스 비교
+    let mapGridIndexX = Math.floor(x / TILE_SIZE);
+    let mapGridIndexY = Math.floor(y / TILE_SIZE);
+    return this.grid[mapGridIndexY][mapGridIndexX] !== 0;
+  }
+
   render() {
     for (let i = 0; i < MAP_NUM_ROWS; i++) {
       for (let j = 0; j < MAP_NUM_COLS; j++) {
@@ -54,8 +65,14 @@ class Player {
     let moveStep = this.walkDirection * this.moveSpeed; //방향 * 속도
     // 키보드 이벤트로 회전방향이 변하니 매 프레임마다 update
     this.rotationAngle += this.turnDirection * this.rotationSpeed;
-    this.x += Math.cos(this.rotationAngle) * moveStep;
-    this.y += Math.sin(this.rotationAngle) * moveStep;
+    let newPlayerX = this.x + Math.cos(this.rotationAngle) * moveStep;
+    let newPlayerY = this.y + Math.sin(this.rotationAngle) * moveStep;
+
+    if (!grid.hasWallAt(newPlayerX, newPlayerY)) {
+      //벽에 부딪히는 지 검사하는 로직
+      this.x = newPlayerX;
+      this.y = newPlayerY;
+    }
   }
 
   render() {
