@@ -11,6 +11,16 @@
 
 ## Mandatory part
 
+- Program name: cub3d
+- Turn in files: All your files
+- Makefile: all, clean, fclean, re, bonus
+- Arguments: a map in format \*.cub
+- External functions
+  - open, close, read, write, malloc, free, perror, strerror, exit
+  - All functions of the math library
+  - All functions of the MinilibX
+- Libft authorized: Yes
+
 - [ ] miniLibX 사용하기
 - [ ] 윈도우 관리 (최소화, 창 전환)
 - [ ] 벽의 방향 (동, 서, 남, 북)에 따라 다른 질감의 벽을 표시하기
