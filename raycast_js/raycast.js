@@ -5,6 +5,11 @@ const MAP_NUM_COLS = 15;
 const WINDOW_WIDTH = MAP_NUM_COLS * TILE_SIZE;
 const WINDOW_HEIGHT = MAP_NUM_ROWS * TILE_SIZE;
 
+const FOV_ANGLE = 60 * (Math.PI / 180);
+
+const WALL_STRIP_WIDTH = 48; //ray를 쏘았을 때 각 칼럼의 너비
+const NUM_RAYS = WINDOW_WIDTH / WALL_STRIP_WIDTH;
+
 // 지도
 class Map {
   constructor() {
@@ -90,8 +95,26 @@ class Player {
   }
 }
 
+// 레이
+class Ray {
+  constructor(rayAngle) {
+    this.rayAngle = rayAngle;
+  }
+
+  render() {
+    stroke('rgba(255, 0, 0, 0.3)');
+    line(
+      player.x,
+      player.y,
+      player.x + Math.cos(this.rayAngle) * 30,
+      player.y + Math.sin(this.rayAngle) * 30
+    );
+  }
+}
+
 const grid = new Map();
 const player = new Player();
+let rays = [];
 
 // 각 함수들이 p5.js 내에서 이벤트 리스너의 콜백으로 등록되어 있다.
 // 상수도 저장되어있는 듯
@@ -121,6 +144,20 @@ function keyReleased() {
   }
 }
 
+function castAllRays() {
+  let columnId = 0;
+  // 플레이어 회전 각도(직각)에서 FOV / 2 (30도) 차감 -> ?
+  let rayAngle = player.rotationAngle - FOV_ANGLE / 2;
+  // 광선을 쏘는 모든 칼럼을 순회
+  rays = []; // ray 정보를 update 할 때 계속 초기화 해야함
+  for (let i = 0; i < NUM_RAYS; i++) {
+    const ray = new Ray(rayAngle);
+    rays.push(ray);
+    rayAngle += FOV_ANGLE / NUM_RAYS;
+    columnId++;
+  }
+}
+
 function setup() {
   //페이지가 실행될 때 한번만 실행
   createCanvas(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -129,6 +166,7 @@ function setup() {
 function update() {
   // 다음 프레임으로 넘어가기 전에 update 해야하는 부분
   player.update();
+  castAllRays();
 }
 
 function draw() {
@@ -137,4 +175,7 @@ function draw() {
 
   grid.render();
   player.render();
+  for (ray of rays) {
+    ray.render();
+  }
 }
