@@ -10,6 +10,8 @@ const FOV_ANGLE = 60 * (Math.PI / 180);
 const WALL_STRIP_WIDTH = 1; //ray를 쏘았을 때 각 칼럼의 너비
 const NUM_RAYS = WINDOW_WIDTH / WALL_STRIP_WIDTH;
 
+const MINIMAP_SCALE_FACTOR = 0.2;
+
 // 지도
 class Map {
   constructor() {
@@ -46,7 +48,12 @@ class Map {
         const tileColor = this.grid[i][j] === 1 ? '#222' : '#fff';
         stroke('#222'); // 테두리 설정
         fill(tileColor); // 배경색
-        rect(tileX, tileY, TILE_SIZE, TILE_SIZE); // 도형
+        rect(
+          MINIMAP_SCALE_FACTOR * tileX,
+          MINIMAP_SCALE_FACTOR * tileY,
+          MINIMAP_SCALE_FACTOR * TILE_SIZE,
+          MINIMAP_SCALE_FACTOR * TILE_SIZE
+        ); // 도형
       }
     }
   }
@@ -82,16 +89,20 @@ class Player {
 
   render() {
     noStroke();
-    fill('red');
-    circle(this.x, this.y, this.radius);
-    /*stroke('red');
+    fill('blue');
+    circle(
+      MINIMAP_SCALE_FACTOR * this.x,
+      MINIMAP_SCALE_FACTOR * this.y,
+      MINIMAP_SCALE_FACTOR * this.radius
+    );
+    stroke('blue');
     line(
       //플레이어가 보는 방향 (x, y축에서 라디안? 을 적용)
-      this.x,
-      this.y,
-      this.x + Math.cos(this.rotationAngle) * 20,
-      this.y + Math.sin(this.rotationAngle) * 20
-    );*/
+      MINIMAP_SCALE_FACTOR * this.x,
+      MINIMAP_SCALE_FACTOR * this.y,
+      MINIMAP_SCALE_FACTOR * (this.x + Math.cos(this.rotationAngle) * 30),
+      MINIMAP_SCALE_FACTOR * (this.y + Math.sin(this.rotationAngle) * 30)
+    );
   }
 }
 
@@ -221,7 +232,12 @@ class Ray {
 
   render() {
     stroke('rgba(255, 0, 0, 0.3)');
-    line(player.x, player.y, this.wallHitX, this.wallHitY);
+    line(
+      MINIMAP_SCALE_FACTOR * player.x,
+      MINIMAP_SCALE_FACTOR * player.y,
+      MINIMAP_SCALE_FACTOR * this.wallHitX,
+      MINIMAP_SCALE_FACTOR * this.wallHitY
+    );
   }
 }
 
