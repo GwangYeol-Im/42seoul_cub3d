@@ -112,8 +112,11 @@ class Ray {
   }
 
   cast(columnId) {
-    var xintercept, yintercept;
-    var xstep, ystep;
+    let xintercept, yintercept;
+    let xstep, ystep;
+    let foundHorzWallHit = false;
+    let wallHitX = 0;
+    let wallHitY = 0;
 
     // 수평선에서 벽과 부딪히는 y좌표 구하기
     yintercept = Math.floor(player.y / TILE_SIZE) * TILE_SIZE;
@@ -128,6 +131,29 @@ class Ray {
     xstep = TILE_SIZE / Math.tan(this.rayAngle);
     xstep *= this.isRayFacingLeft && xstep > 0 ? -1 : 1;
     xstep *= this.isRayFacingRight && xstep < 0 ? -1 : 1;
+
+    let nextHorzTouchX = xintercept;
+    let nextHorzTouchY = yintercept;
+
+    if (this.isRayFacingUp) {
+      nextHorzTouchY--;
+    }
+    while (
+      nextHorzTouchX >= 0 &&
+      nextHorzTouchX <= WINDOW_WIDTH &&
+      nextHorzTouchY >= 0 &&
+      nextHorzTouchY <= WINDOW_HEIGHT
+    ) {
+      if (grid.hasWallAt(nextHorzTouchX, nextHorzTouchY)) {
+        foundHorzWallHit = true;
+        wallHitX = nextHorzTouchX;
+        wallHitY = nextHorzTouchY;
+        break;
+      } else {
+        nextHorzTouchX += xstep;
+        nextHorzTouchY += ystep;
+      }
+    }
   }
 
   render() {
@@ -204,7 +230,6 @@ function setup() {
 function update() {
   // 다음 프레임으로 넘어가기 전에 update 해야하는 부분
   player.update();
-  castAllRays();
 }
 
 function draw() {
@@ -212,8 +237,9 @@ function draw() {
   update();
 
   grid.render();
-  player.render();
   for (ray of rays) {
     ray.render();
   }
+  player.render();
+  castAllRays();
 }
