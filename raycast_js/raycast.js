@@ -288,6 +288,25 @@ function castAllRays() {
   }
 }
 
+function render3DProjectedWalls() {
+  for (let i = 0; i < NUM_RAYS; i++) {
+    let ray = rays[i];
+    let rayDistance = ray.distance;
+    // calculate the distance to the projection plane
+    let distanceProjectionPlane = WINDOW_WIDTH / 2 / Math.tan(FOV_ANGLE / 2);
+    // projected wall height
+    let wallStripHeight = (TILE_SIZE / rayDistance) * distanceProjectionPlane;
+    fill('rgba(255, 255, 255, 1.0)');
+    noStroke();
+    rect(
+      i * WALL_STRIP_WIDTH,
+      WINDOW_HEIGHT / 2 - wallStripHeight / 2,
+      WALL_STRIP_WIDTH,
+      wallStripHeight
+    );
+  }
+}
+
 function normalizeAngle(angle) {
   angle = angle % (2 * Math.PI);
   if (angle < 0) {
@@ -313,7 +332,10 @@ function update() {
 
 function draw() {
   //페이지 실행 후 매 프레임마다 실행
+  clear('#212121');
   update();
+
+  render3DProjectedWalls();
 
   grid.render();
   for (ray of rays) {
