@@ -1,4 +1,4 @@
-const TILE_SIZE = 32;
+const TILE_SIZE = 64;
 const MAP_NUM_ROWS = 11;
 const MAP_NUM_COLS = 15;
 
@@ -102,6 +102,7 @@ class Ray {
     this.wallHitX = 0;
     this.wallHitY = 0;
     this.distance = 0; // 부딪히 벽과 플레이어 사이 거리
+    this.wasHitVertical;
 
     this.isRayFacingDown = this.rayAngle > 0 && this.rayAngle < Math.PI;
     this.isRayFacingUp = !this.isRayFacingDown;
@@ -114,9 +115,10 @@ class Ray {
   cast(columnId) {
     let xintercept, yintercept;
     let xstep, ystep;
+    // 수평 처리
     let foundHorzWallHit = false;
-    let wallHitX = 0;
-    let wallHitY = 0;
+    let horzWallHitX = 0;
+    let horzWallHitY = 0;
 
     // 수평선에서 벽과 부딪히는 y좌표 구하기
     yintercept = Math.floor(player.y / TILE_SIZE) * TILE_SIZE;
@@ -146,24 +148,76 @@ class Ray {
     ) {
       if (grid.hasWallAt(nextHorzTouchX, nextHorzTouchY)) {
         foundHorzWallHit = true;
-        wallHitX = nextHorzTouchX;
-        wallHitY = nextHorzTouchY;
+        horzWallHitX = nextHorzTouchX;
+        horzWallHitY = nextHorzTouchY;
         break;
       } else {
         nextHorzTouchX += xstep;
         nextHorzTouchY += ystep;
       }
     }
+    // 수직 처리
+    let foundVertWallHit = false;
+    let vertWallHitX = 0;
+    let vertWallHitY = 0;
+
+    // 수직선에서 벽과 부딪히는 x좌표 구하기
+    xintercept = Math.floor(player.x / TILE_SIZE) * TILE_SIZE;
+    xintercept += this.isRayFacingRight ? TILE_SIZE : 0;
+    // 수직선에서 벽과 부딪히는 y좌표 구하기
+    yintercept = player.y + (xintercept - player.x) * Math.tan(this.rayAngle);
+
+    // xstep, ystep 계산
+    xstep = TILE_SIZE;
+    xstep *= this.isRayFacingLeft ? -1 : 1;
+
+    ystep = TILE_SIZE * Math.tan(this.rayAngle);
+    ystep *= this.isRayFacingUp && ystep > 0 ? -1 : 1;
+    ystep *= this.isRayFacingDown && ystep < 0 ? -1 : 1;
+
+    let nextVertTouchX = xintercept;
+    let nextVertTouchY = yintercept;
+
+    if (this.isRayFacingLeft) {
+      nextVertTouchX--;
+    }
+    while (
+      nextVertTouchX >= 0 &&
+      nextVertTouchX <= WINDOW_WIDTH &&
+      nextVertTouchY >= 0 &&
+      nextVertTouchY <= WINDOW_HEIGHT
+    ) {
+      if (grid.hasWallAt(nextVertTouchX, nextVertTouchY)) {
+        foundVertWallHit = true;
+        vertWallHitX = nextVertTouchX;
+        vertWallHitY = nextVertTouchY;
+        break;
+      } else {
+        nextVertTouchX += xstep;
+        nextVertTouchY += ystep;
+      }
+    }
+    // 수직, 수평까지의 거리를 계산해 더 짧은 값을 취한다.
+    var horzHitDistance = foundHorzWallHit
+      ? distanceBetweenPoints(player.x, player.y, horzWallHitX, horzWallHitY)
+      : Number.MAX_VALUE;
+    var vertHitDistance = foundVertWallHit
+      ? distanceBetweenPoints(player.x, player.y, vertWallHitX, vertWallHitY)
+      : Number.MAX_VALUE;
+
+    // 수직 수평 비교해 작은 값만 저장
+    this.wallHitX =
+      horzHitDistance < vertHitDistance ? horzWallHitX : vertWallHitX;
+    this.wallHitY =
+      horzHitDistance < vertHitDistance ? horzWallHitY : vertWallHitY;
+    this.distance =
+      horzHitDistance < vertHitDistance ? horzHitDistance : vertHitDistance;
+    this.wasHitVertical = vertHitDistance < horzHitDistance;
   }
 
   render() {
     stroke('rgba(255, 0, 0, 0.3)');
-    line(
-      player.x,
-      player.y,
-      player.x + Math.cos(this.rayAngle) * 30,
-      player.y + Math.sin(this.rayAngle) * 30
-    );
+    line(player.x, player.y, this.wallHitX, this.wallHitY);
   }
 }
 
@@ -222,6 +276,10 @@ function normalizeAngle(angle) {
   return angle;
 }
 
+function distanceBetweenPoints(x1, y1, x2, y2) {
+  return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+}
+
 function setup() {
   //페이지가 실행될 때 한번만 실행
   createCanvas(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -230,6 +288,7 @@ function setup() {
 function update() {
   // 다음 프레임으로 넘어가기 전에 update 해야하는 부분
   player.update();
+  castAllRays();
 }
 
 function draw() {
@@ -241,5 +300,4 @@ function draw() {
     ray.render();
   }
   player.render();
-  castAllRays();
 }
