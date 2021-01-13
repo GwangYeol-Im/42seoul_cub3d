@@ -7,7 +7,7 @@ const WINDOW_HEIGHT = MAP_NUM_ROWS * TILE_SIZE;
 
 const FOV_ANGLE = 60 * (Math.PI / 180);
 
-const WALL_STRIP_WIDTH = 48; //ray를 쏘았을 때 각 칼럼의 너비
+const WALL_STRIP_WIDTH = 1; //ray를 쏘았을 때 각 칼럼의 너비
 const NUM_RAYS = WINDOW_WIDTH / WALL_STRIP_WIDTH;
 
 // 지도
@@ -137,16 +137,18 @@ class Ray {
     let nextHorzTouchX = xintercept;
     let nextHorzTouchY = yintercept;
 
-    if (this.isRayFacingUp) {
-      nextHorzTouchY--;
-    }
     while (
       nextHorzTouchX >= 0 &&
       nextHorzTouchX <= WINDOW_WIDTH &&
       nextHorzTouchY >= 0 &&
       nextHorzTouchY <= WINDOW_HEIGHT
     ) {
-      if (grid.hasWallAt(nextHorzTouchX, nextHorzTouchY)) {
+      if (
+        grid.hasWallAt(
+          nextHorzTouchX,
+          nextHorzTouchY - (this.isRayFacingUp ? 1 : 0)
+        )
+      ) {
         foundHorzWallHit = true;
         horzWallHitX = nextHorzTouchX;
         horzWallHitY = nextHorzTouchY;
@@ -178,16 +180,18 @@ class Ray {
     let nextVertTouchX = xintercept;
     let nextVertTouchY = yintercept;
 
-    if (this.isRayFacingLeft) {
-      nextVertTouchX--;
-    }
     while (
       nextVertTouchX >= 0 &&
       nextVertTouchX <= WINDOW_WIDTH &&
       nextVertTouchY >= 0 &&
       nextVertTouchY <= WINDOW_HEIGHT
     ) {
-      if (grid.hasWallAt(nextVertTouchX, nextVertTouchY)) {
+      if (
+        grid.hasWallAt(
+          nextVertTouchX - (this.isRayFacingLeft ? 1 : 0),
+          nextVertTouchY
+        )
+      ) {
         foundVertWallHit = true;
         vertWallHitX = nextVertTouchX;
         vertWallHitY = nextVertTouchY;
