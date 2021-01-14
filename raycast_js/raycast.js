@@ -291,11 +291,13 @@ function castAllRays() {
 function render3DProjectedWalls() {
   for (let i = 0; i < NUM_RAYS; i++) {
     let ray = rays[i];
-    let rayDistance = ray.distance;
+    let correctWallDistance =
+      ray.distance * Math.cos(ray.rayAngle - player.rotationAngle);
     // calculate the distance to the projection plane
     let distanceProjectionPlane = WINDOW_WIDTH / 2 / Math.tan(FOV_ANGLE / 2);
     // projected wall height
-    let wallStripHeight = (TILE_SIZE / rayDistance) * distanceProjectionPlane;
+    let wallStripHeight =
+      (TILE_SIZE / correctWallDistance) * distanceProjectionPlane;
     fill('rgba(255, 255, 255, 1.0)');
     noStroke();
     rect(
