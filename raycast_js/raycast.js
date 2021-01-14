@@ -10,7 +10,7 @@ const FOV_ANGLE = 60 * (Math.PI / 180);
 const WALL_STRIP_WIDTH = 1; //ray를 쏘았을 때 각 칼럼의 너비
 const NUM_RAYS = WINDOW_WIDTH / WALL_STRIP_WIDTH;
 
-const MINIMAP_SCALE_FACTOR = 0.2;
+const MINIMAP_SCALE_FACTOR = 0.25;
 
 // 지도
 class Map {
@@ -123,7 +123,7 @@ class Ray {
     this.isRayFacingLeft = !this.isRayFacingRight;
   }
 
-  cast(columnId) {
+  cast() {
     let xintercept, yintercept;
     let xstep, ystep;
     // 수평 처리
@@ -220,14 +220,17 @@ class Ray {
       ? distanceBetweenPoints(player.x, player.y, vertWallHitX, vertWallHitY)
       : Number.MAX_VALUE;
 
-    // 수직 수평 비교해 작은 값만 저장
-    this.wallHitX =
-      horzHitDistance < vertHitDistance ? horzWallHitX : vertWallHitX;
-    this.wallHitY =
-      horzHitDistance < vertHitDistance ? horzWallHitY : vertWallHitY;
-    this.distance =
-      horzHitDistance < vertHitDistance ? horzHitDistance : vertHitDistance;
-    this.wasHitVertical = vertHitDistance < horzHitDistance;
+    if (vertHitDistance < horzHitDistance) {
+      this.wallHitX = vertWallHitX;
+      this.wallHitY = vertWallHitY;
+      this.distance = vertHitDistance;
+      this.wasHitVertical = true;
+    } else {
+      this.wallHitX = horzWallHitX;
+      this.wallHitY = horzWallHitY;
+      this.distance = horzHitDistance;
+      this.wasHitVertical = false;
+    }
   }
 
   render() {
@@ -274,17 +277,15 @@ function keyReleased() {
 }
 
 function castAllRays() {
-  let columnId = 0;
   // 플레이어 회전 각도(직각)에서 FOV / 2 (30도) 차감 -> ?
   let rayAngle = player.rotationAngle - FOV_ANGLE / 2;
   // 광선을 쏘는 모든 칼럼을 순회
   rays = []; // ray 정보를 update 할 때 계속 초기화 해야함
-  for (let i = 0; i < NUM_RAYS; i++) {
+  for (let col = 0; col < NUM_RAYS; col++) {
     const ray = new Ray(rayAngle);
-    ray.cast(columnId);
+    ray.cast();
     rays.push(ray);
     rayAngle += FOV_ANGLE / NUM_RAYS;
-    columnId++;
   }
 }
 
@@ -298,7 +299,10 @@ function render3DProjectedWalls() {
     // projected wall height
     let wallStripHeight =
       (TILE_SIZE / correctWallDistance) * distanceProjectionPlane;
-    fill('rgba(255, 255, 255, 1.0)');
+    // 벽 거리에 따른 투명도 계산
+    let alpha = 1.0; //200 / correctWallDistance;
+    let color = ray.wasHitVertical ? 255 : 180;
+    fill(`rgba(${color}, ${color}, ${color}, ${alpha})`);
     noStroke();
     rect(
       i * WALL_STRIP_WIDTH,
