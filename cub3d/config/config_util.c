@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub_3d.h                                           :+:      :+:    :+:   */
+/*   config_util.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gim <gim@student.42.kr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/20 12:11:17 by gim               #+#    #+#             */
-/*   Updated: 2021/01/20 16:31:23 by gim              ###   ########.fr       */
+/*   Created: 2021/01/20 16:54:09 by gim               #+#    #+#             */
+/*   Updated: 2021/01/20 16:58:25 by gim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB_3D_H
-# define CUB_3D_H
+#include "config.h"
 
-# include "config/config.h"
-# include "mlx/mlx.h"
-
-typedef struct	s_game
+int			ft_endwith(char *str, char *end)
 {
-	t_config	config;
-}				t_game;
+	int		len;
+	int		end_len;
 
-int				exit_game(/*t_game *game,*/int code);
-
-#endif
+	len = ft_strlen(str);
+	end_len = ft_strlen(end);
+	if (end_len > len)
+		return (0);
+	return (!ft_strncmp(str + len - end_len, end, end_len));
+}
