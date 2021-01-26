@@ -3,21 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gim <gim@student.42.kr>                    +#+  +:+       +#+        */
+/*   By: gim <gim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/20 16:30:21 by gim               #+#    #+#             */
-/*   Updated: 2021/01/20 16:31:05 by gim              ###   ########.fr       */
+/*   Created: 2021/01/26 11:15:47 by imgwang-yeo       #+#    #+#             */
+/*   Updated: 2021/01/26 17:43:01 by gim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_3d.h"
 
-int			exit_game(/*t_game *game,*/int code)
+void		init_game(t_game *game, int save_opt)
 {
-	// clear_config(&game->config);
-	// clear_window(&game->window);
-	// clear_textures(game);
-	// clear_sprites(&game->sprites);
-	exit(code);
-	return (code);
+	init_config(&game->config);
+	game->option = save_opt;
 }

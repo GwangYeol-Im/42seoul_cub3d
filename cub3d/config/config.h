@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   config.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gim <gim@student.42.kr>                    +#+  +:+       +#+        */
+/*   By: gim <gim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/20 13:18:05 by imgwang-yeo       #+#    #+#             */
-/*   Updated: 2021/01/20 17:15:59 by gim              ###   ########.fr       */
+/*   Created: 2021/01/26 11:19:11 by imgwang-yeo       #+#    #+#             */
+/*   Updated: 2021/01/26 17:43:45 by gim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 
 # include <fcntl.h>
 # include <unistd.h>
+# include <stdio.h>
 # include "../gnl/get_next_line.h"
+# include "../libft/libft.h"
 
 # define DIRECTIONS "NSEW"
 # define VALID_MAP_CHARACTERS " 01234NSEW"
@@ -26,25 +28,19 @@
 # define C_WE				3
 # define C_EA				4
 # define C_S				5
-# define C_SU				6
-# define C_SC				7
-# define C_FT				8
-# define C_ST				9
-# define C_F				10
-# define C_C				11
-# define C_MAP				12
-# define C_LAST				13
+# define C_F				6
+# define C_C				7
+# define C_MAP				8
+# define C_LAST				9
 
-# define TEXTURES			9
+# define TEXTURES			7
 # define TEX_NORTH			0
 # define TEX_SOUTH			1
 # define TEX_WEST			2
 # define TEX_EAST			3
-# define TEX_SKY			4
+# define TEX_CEILING		4
 # define TEX_FLOOR			5
 # define TEX_SPRITE			6
-# define TEX_SPRITE_UP		7
-# define TEX_SPRITE_C		8
 
 typedef struct	s_config
 {
@@ -52,7 +48,7 @@ typedef struct	s_config
 	int			requested_height;
 	int			*map;
 	int			rows;
-	int			colums;
+	int			cols;
 	int			save_arg;
 	double		rotate_speed;
 	double		move_speed;
@@ -62,6 +58,11 @@ typedef struct	s_config
 	double		fov;
 }				t_config;
 
-int			parse_config(t_config *config, char *file_path);
+void			init_config(t_config *config);
+int				parse_config(t_config *config, char *file_path);
+int				ft_endwith(char *str, char *end);
+int				parse_dimensions(t_config *config, char *line);
+int				parse_color(t_config *config, int key, char *line);
+int				parse_texture(t_config *config, int key, char *line);
 
 #endif

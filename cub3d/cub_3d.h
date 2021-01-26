@@ -3,24 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   cub_3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gim <gim@student.42.kr>                    +#+  +:+       +#+        */
+/*   By: gim <gim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/20 12:11:17 by gim               #+#    #+#             */
-/*   Updated: 2021/01/20 16:31:23 by gim              ###   ########.fr       */
+/*   Created: 2021/01/26 10:54:10 by imgwang-yeo       #+#    #+#             */
+/*   Updated: 2021/01/26 17:49:39 by gim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB_3D_H
 # define CUB_3D_H
 
-# include "config/config.h"
 # include "mlx/mlx.h"
+# include "config/config.h"
 
 typedef struct	s_game
 {
 	t_config	config;
+	int			option;
 }				t_game;
 
-int				exit_game(/*t_game *game,*/int code);
+void			init_game(t_game *game, int save_opt);
 
 #endif

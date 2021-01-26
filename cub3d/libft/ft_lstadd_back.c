@@ -6,24 +6,32 @@
 /*   By: gim <gim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/30 18:20:21 by gim               #+#    #+#             */
-/*   Updated: 2020/10/01 12:24:29 by gim              ###   ########.fr       */
+/*   Updated: 2021/01/26 17:48:05 by gim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void		ft_lstadd_back(t_list **lst, t_list *new)
+t_list		*ft_lstadd_back(t_list **str, char *content)
 {
-	t_list	*last;
+	t_list	*first;
+	t_list	*new;
 
-	if (lst == NULL || new == NULL)
-		return ;
-	if (*lst == NULL)
+	if (!content)
+		return (NULL);
+	if (!(new = (t_list*)malloc(sizeof(*new))))
+		return (0);
+	new->content = content;
+	new->next = NULL;
+	if (!*str)
+		*str = new;
+	else
 	{
-		*lst = new;
-		return ;
+		first = *str;
+		while ((*str)->next)
+			*str = (*str)->next;
+		(*str)->next = new;
+		*str = first;
 	}
-	last = ft_lstlast(*lst);
-	new->next = last->next;
-	last->next = new;
+	return (new);
 }

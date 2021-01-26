@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   config_util.c                                      :+:      :+:    :+:   */
+/*   pos.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gim <gim@student.42.kr>                    +#+  +:+       +#+        */
+/*   By: gim <gim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/20 16:54:09 by gim               #+#    #+#             */
-/*   Updated: 2021/01/20 16:58:25 by gim              ###   ########.fr       */
+/*   Created: 2021/01/21 18:51:58 by gim               #+#    #+#             */
+/*   Updated: 2021/01/26 17:48:55 by gim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "config.h"
+#include "libft.h"
 
-int			ft_endwith(char *str, char *end)
+void		set_pos(t_pos *pos, double x, double y)
 {
-	int		len;
-	int		end_len;
+	pos->x = x;
+	pos->y = y;
+}
 
-	len = ft_strlen(str);
-	end_len = ft_strlen(end);
-	if (end_len > len)
-		return (0);
-	return (!ft_strncmp(str + len - end_len, end, end_len));
+void		copy_pos(t_pos *pos, t_pos *org)
+{
+	pos->x = org->x;
+	pos->y = org->y;
 }

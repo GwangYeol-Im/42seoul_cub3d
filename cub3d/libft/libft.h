@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gim <gim@student.42.kr>                    +#+  +:+       +#+        */
+/*   By: gim <gim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/28 13:43:02 by imgwang-yeo       #+#    #+#             */
-/*   Updated: 2021/01/20 17:05:56 by gim              ###   ########.fr       */
+/*   Updated: 2021/01/26 17:48:48 by gim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdio.h>
 
 typedef struct		s_list
 {
@@ -36,7 +37,7 @@ int					ft_isprint(int c);
 int					ft_tolower(int c);
 int					ft_toupper(int c);
 int					ft_atoi(const char *str);
-int					ft_strncmp(const char *s1, const char *s2, size_t n);
+int					ft_strcmp(const char *s1, const char *s2);
 size_t				ft_strlen(const char *s);
 size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t				ft_strlcat(char *dst, const char *src, size_t dstsize);
@@ -66,7 +67,7 @@ void				ft_putnbr_fd(int n, int fd);
 
 t_list				*ft_lstnew(void *content);
 void				ft_lstadd_front(t_list **lst, t_list *new);
-void				ft_lstadd_back(t_list **lst, t_list *new);
+t_list				*ft_lstadd_back(t_list **str, char *content);
 int					ft_lstsize(t_list *lst);
 t_list				*ft_lstlast(t_list *lst);
 void				ft_lstdelone(t_list *lst, void (*del)(void *));
@@ -74,5 +75,11 @@ int					ft_lstclear(t_list **lst);
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *), \
 					void (*del)(void *));
+
+void				set_pos(t_pos *pos, double x, double y);
+void				copy_pos(t_pos *pos, t_pos *org);
+int					strs_length(char **strs);
+int					strs_clear(char **strs);
+int					ft_in_set(char c, char *set);
 
 #endif

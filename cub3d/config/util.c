@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast.c                                       :+:      :+:    :+:   */
+/*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gim <gim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/30 18:12:50 by gim               #+#    #+#             */
-/*   Updated: 2021/01/26 17:48:23 by gim              ###   ########.fr       */
+/*   Created: 2021/01/26 11:45:16 by imgwang-yeo       #+#    #+#             */
+/*   Updated: 2021/01/26 17:45:41 by gim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "config.h"
 
-t_list		*ft_lstlast(t_list *lst)
+int			ft_endwith(char *str, char *end)
 {
-	if (lst == NULL)
-		return (NULL);
-	while (lst->next)
-		lst = lst->next;
-	return (lst);
+	int		len;
+	int		end_len;
+
+	len = ft_strlen(str);
+	end_len = ft_strlen(end);
+	if (end_len > len)
+		return (0);
+	return (!ft_strcmp(str + len - end_len, end));
 }
