@@ -6,7 +6,7 @@
 /*   By: gim <gim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 11:23:01 by imgwang-yeo       #+#    #+#             */
-/*   Updated: 2021/01/26 17:55:00 by gim              ###   ########.fr       */
+/*   Updated: 2021/01/27 10:17:09 by gim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void			init_config(t_config *config)
 	config->rotate_speed = 0.11;
 	config->move_speed = 0.11;
 	config->fov = 0.66;
+	config->camera = 0;
 	i = 0;
 	while (i < C_LAST)
 		config->set[i++] = 0;
@@ -43,13 +44,13 @@ static int		config_key(char *line)
 {
 	if (line[0] == 'R' && line[1] == ' ')
 		return (C_R);
-	else if (line[0] == 'N' && line[1] == 'O')
+	else if (line[0] == 'N' && line[1] == 'O' && line[2] == ' ')
 		return (C_NO);
-	else if (line[0] == 'S' && line[1] == 'O')
+	else if (line[0] == 'S' && line[1] == 'O' && line[2] == ' ')
 		return (C_SO);
-	else if (line[0] == 'W' && line[1] == 'E')
+	else if (line[0] == 'W' && line[1] == 'E' && line[2] == ' ')
 		return (C_WE);
-	else if (line[0] == 'E' && line[1] == 'A')
+	else if (line[0] == 'E' && line[1] == 'A' && line[2] == ' ')
 		return (C_EA);
 	else if (line[0] == 'S' && line[1] == ' ')
 		return (C_S);
@@ -111,7 +112,7 @@ int				parse_config(t_config *config, char *file_path)
 		re = !!ft_lstadd_back(&map_buffer, ft_strdup(line));
 	free(line);
 	close(fd);
-	if (!re)
+	if (!re || config->save_arg != 8 || !parse_map(config, map_buffer))
 		return (ft_lstclear(&map_buffer));
 	ft_lstclear(&map_buffer);
 	return (1);

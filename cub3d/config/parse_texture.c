@@ -6,29 +6,25 @@
 /*   By: gim <gim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:22:59 by imgwang-yeo       #+#    #+#             */
-/*   Updated: 2021/01/26 17:47:10 by gim              ###   ########.fr       */
+/*   Updated: 2021/01/27 10:13:42 by gim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "config.h"
 
-static char	*path_from_line(int start, char *line)
+static char	*path_from_line(char *line)
 {
-	int		start_def;
-	int		end;
+	char	**strs;
 	char	*path;
 
-	start_def = start;
-	if (!line)
+	if (!(strs = ft_split(line, ' ')) || strs_length(strs) != 2
+		|| !ft_endwith(strs[1], ".xpm"))
+	{
+		strs_clear(strs);
 		return (NULL);
-	while (line[start] && line[start] == ' ')
-		start++;
-	end = ft_strlen(line);
-	while (line[end] == ' ')
-		end--;
-	if (start == start_def || end - start <= 0
-		|| !(path = ft_substr(line, start, end - start)))
-		return (NULL);
+	}
+	path = ft_strdup(strs[1]);
+	strs_clear(strs);
 	return (path);
 }
 
@@ -60,8 +56,9 @@ int			parse_texture(t_config *config, int key, char *line)
 		free(config->tex_path[idx]);
 		config->tex_path[idx] = NULL;
 	}
-	if (!(path = path_from_line((idx == TEX_SPRITE) ? 1 : 2, line)))
+	if (!(path = path_from_line(line)))
 		return (0);
 	config->tex_path[idx] = path;
+	config->save_arg++;
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: gim <gim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 12:29:50 by imgwang-yeo       #+#    #+#             */
-/*   Updated: 2021/01/26 17:46:50 by gim              ###   ########.fr       */
+/*   Updated: 2021/01/27 10:20:29 by gim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int				parse_dimensions(t_config *config, char *line)
 		return (strs_clear(strs));
 	config->requested_height = temp;
 	strs_clear(strs);
+	config->save_arg++;
 	return (1);
 }
 
@@ -63,12 +64,13 @@ int				parse_color(t_config *config, int key, char *line)
 	while (line[++i])
 		if (!ft_in_set(line[i], " ,0123456789"))
 			return (0);
-	if (!(strs = ft_split(line, ' ')) || strs_length(strs) != 2 \
-			|| !(strs2 = ft_split(strs[1], ','))
-			|| strs_length(strs2) != 3)
-		return (strs_clear(strs) || strs_clear(strs2));
+	if (!(strs = ft_split(line, ' ')) || strs_length(strs) != 2)
+		return (strs_clear(strs));
+	if (!(strs2 = ft_split(strs[1], ',')) || strs_length(strs2) != 3)
+		return (strs_clear(strs2));
 	if ((int)((color = str_to_color(strs2))) < 0)
 		return (strs_clear(strs) || strs_clear(strs2));
 	config->color[(key == C_F) ? TEX_FLOOR : TEX_CEILING] = color;
+	config->save_arg++;
 	return ((strs_clear(strs) || strs_clear(strs2)) | 1);
 }

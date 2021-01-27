@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: imgwang-yeol <imgwang-yeol@student.42.f    +#+  +:+       +#+         #
+#    By: gim <gim@student.42seoul.kr>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/20 12:42:32 by imgwang-yeo       #+#    #+#              #
-#    Updated: 2021/01/26 17:39:04 by imgwang-yeo      ###   ########.fr        #
+#    Updated: 2021/01/26 21:56:43 by gim              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ NAME = cub3D
 
 SRCS = main.c game.c \
 		config/config.c config/util.c config/parse_params.c \
-		config/parse_texture.c gnl/get_next_line.c \
+		config/parse_texture.c config/map.c config/map_check.c \
+		gnl/get_next_line.c \
 		libft/ft_isalnum.c libft/ft_isalpha.c libft/ft_isascii.c \
 		libft/ft_isdigit.c libft/ft_isprint.c libft/ft_tolower.c \
 		libft/ft_toupper.c libft/ft_strlen.c libft/ft_strlcpy.c \

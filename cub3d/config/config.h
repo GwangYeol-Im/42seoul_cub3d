@@ -6,7 +6,7 @@
 /*   By: gim <gim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 11:19:11 by imgwang-yeo       #+#    #+#             */
-/*   Updated: 2021/01/26 17:43:45 by gim              ###   ########.fr       */
+/*   Updated: 2021/01/27 11:33:05 by gim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,20 @@
 # define TEX_FLOOR			5
 # define TEX_SPRITE			6
 
+# define DX 
+# define DY {0, 0, -1, 1}
+
+typedef struct	s_search
+{
+	char		**visit;
+	int			valid;
+}				t_search;
+
 typedef struct	s_config
 {
 	int			requested_width;
 	int			requested_height;
-	int			*map;
+	char		**map;
 	int			rows;
 	int			cols;
 	int			save_arg;
@@ -56,6 +65,9 @@ typedef struct	s_config
 	unsigned	color[TEXTURES];
 	int			set[C_LAST];
 	double		fov;
+	int			camera;
+	t_pos		player;
+	t_search	search;
 }				t_config;
 
 void			init_config(t_config *config);
@@ -64,5 +76,8 @@ int				ft_endwith(char *str, char *end);
 int				parse_dimensions(t_config *config, char *line);
 int				parse_color(t_config *config, int key, char *line);
 int				parse_texture(t_config *config, int key, char *line);
+int				parse_map(t_config *config, t_list *map_buffer);
+int				check_valid_map(t_config *config);
+char			*check_valid_str(t_config *config, char *content, int x);
 
 #endif
