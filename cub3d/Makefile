@@ -6,7 +6,7 @@
 #    By: gim <gim@student.42seoul.kr>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/20 12:42:32 by imgwang-yeo       #+#    #+#              #
-#    Updated: 2021/01/26 21:56:43 by gim              ###   ########.fr        #
+#    Updated: 2021/01/27 14:18:15 by gim              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,9 +19,11 @@ MLX = libmlx.dylib
 
 NAME = cub3D
 
-SRCS = main.c game.c \
+SRCS = main.c cub_3d.c game.c \
 		config/config.c config/util.c config/parse_params.c \
 		config/parse_texture.c config/map.c config/map_check.c \
+		engine/window.c engine/camera.c engine/util.c \
+		engine/texture.c engine/color.c \
 		gnl/get_next_line.c \
 		libft/ft_isalnum.c libft/ft_isalpha.c libft/ft_isascii.c \
 		libft/ft_isdigit.c libft/ft_isprint.c libft/ft_tolower.c \
@@ -37,7 +39,7 @@ SRCS = main.c game.c \
 		libft/ft_putnbr_fd.c libft/ft_lstadd_back.c libft/ft_lstadd_front.c \
 		libft/ft_lstclear.c libft/ft_lstdelone.c libft/ft_lstiter.c \
 		libft/ft_lstlast.c libft/ft_lstnew.c libft/ft_lstsize.c \
-		libft/str.c
+		libft/str.c libft/pos.c
 
 OBJS = $(SRCS:c=o)
 

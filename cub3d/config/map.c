@@ -6,7 +6,7 @@
 /*   By: gim <gim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 18:02:22 by gim               #+#    #+#             */
-/*   Updated: 2021/01/27 11:32:38 by gim              ###   ########.fr       */
+/*   Updated: 2021/01/27 14:57:03 by gim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int			check_rows(char *line, int len)
 {
-	return (line[0] != ' ' && line[0] != '0' && line[len - 1] != '1' && line [len - 1] != '1');
+	return (line[0] == ' ' || line[0] == '1' || line[len - 1] == '0' || line[len - 1] == '1');
 }
 
 int			check_left_right_borders(t_list *map_buffer, t_config *config)
@@ -78,6 +78,5 @@ int			parse_map(t_config *config, t_list *map_buffer)
 	}
 	if (config->camera != 1 || !check_valid_map(config))
 		return (strs_clear(config->map));
-	strs_clear(config->map);
 	return (1);
 }

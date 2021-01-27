@@ -6,7 +6,7 @@
 /*   By: gim <gim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 10:51:37 by imgwang-yeo       #+#    #+#             */
-/*   Updated: 2021/01/27 10:50:28 by gim              ###   ########.fr       */
+/*   Updated: 2021/01/27 14:27:13 by gim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@ int			main(int argc, char **argv)
 	init_game(&game, save_opt);
 	if (!parse_config(&game.config, argv[1]))
 		return (exit_error("\nError: Invalid map.\n"));
-	printf("hahaha!\n");
-	return (0);
+	if (!finish_init(&game))
+		return (EXIT_FAILURE);
+	// mlx_hook(game.window.win, X_EVENT_KEY_PRESS, 0, &key_press, &game);
+	// mlx_hook(game.window.win, X_EVENT_KEY_RELEASE, 0, &key_release, &game);
+	// mlx_hook(game.window.win, X_EVENT_EXIT, 0, &exit_hook, &game);
+	// mlx_loop_hook(game.window.ptr, &main_loop, &game);
+	// mlx_loop(game.window.ptr);
+	return (EXIT_SUCCESS);
 }
