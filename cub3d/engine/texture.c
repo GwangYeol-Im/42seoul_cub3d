@@ -6,7 +6,7 @@
 /*   By: gim <gim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 13:17:13 by gim               #+#    #+#             */
-/*   Updated: 2021/01/27 13:19:36 by gim              ###   ########.fr       */
+/*   Updated: 2021/01/27 15:32:57 by gim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ int			load_textures(t_game *game)
 	int 	i;
 	int		j;
 
-	i = 0;
-	while (i < TEXTURES)
+	i = -1;
+	while (++i < TEXTURES)
 	{
 		if (!load_tex(&game->window, &game->tex[i], game->config.tex_path[i]))
 			return (0);
@@ -100,7 +100,6 @@ int			load_textures(t_game *game)
 		while (j < game->tex[i].height && !line_is_empty(&game->tex[i], j))
 			j++;
 		game->tex[i].end.y = j;
-		i++;
 	}
 	return (1);
 }

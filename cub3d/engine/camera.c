@@ -6,7 +6,7 @@
 /*   By: gim <gim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 12:35:44 by gim               #+#    #+#             */
-/*   Updated: 2021/01/27 15:08:39 by gim              ###   ########.fr       */
+/*   Updated: 2021/01/27 15:11:03 by gim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void			find_start_angle(t_config *config, t_camera *camera)
 		set_pos(&camera->dir, -1., 0.);
 		set_pos(&camera->plane, 0., -config->fov);
 	}
-	printf("%c\n", map(camera->pos, *config));
 	set_pos(&camera->x_dir, camera->dir.y, -camera->dir.x);
 	config->map[fint(camera->pos.y)][fint(camera->pos.x)] = '0';
 }
