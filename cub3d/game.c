@@ -6,11 +6,21 @@
 /*   By: gim <gim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 11:15:47 by imgwang-yeo       #+#    #+#             */
-/*   Updated: 2021/01/27 15:30:31 by gim              ###   ########.fr       */
+/*   Updated: 2021/01/30 16:49:38 by gim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_3d.h"
+
+int			exit_game(t_game *game, int code)
+{
+	clear_config(&game->config);
+	clear_window(&game->window);
+	// clear_textures(game);
+	// clear_sprites(&game->sprites);
+	exit(code);
+	return (code);
+}
 
 void		init_game(t_game *game, int save_opt)
 {
@@ -30,7 +40,7 @@ void		init_game(t_game *game, int save_opt)
 int			finish_init(t_game *game)
 {
 	if (!init_window(&game->window, &game->config))
-		return (exit_error("Error:\nmlx failed to create window or image.\n"));
+		return (exit_error(game, "Error:\nmlx failed to create window or image.\n"));
 	find_start_pos(&game->config, &game->camera);
 	find_start_angle(&game->config, &game->camera);
 	// if (!load_textures(game))

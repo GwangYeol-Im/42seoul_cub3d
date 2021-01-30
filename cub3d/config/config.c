@@ -6,11 +6,29 @@
 /*   By: gim <gim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 11:23:01 by imgwang-yeo       #+#    #+#             */
-/*   Updated: 2021/01/27 14:43:15 by gim              ###   ########.fr       */
+/*   Updated: 2021/01/30 16:45:33 by gim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "config.h"
+
+int				clear_config(t_config *config)
+{
+	int	i;
+
+	i = 0;
+	while (i < TEXTURES)
+	{
+		if (config->tex_path[i])
+			free(config->tex_path[i]);
+		config->tex_path[i] = NULL;
+		i++;
+	}
+	if (config->map)
+		strs_clear(config->map);
+	config->map = NULL;
+	return (0);
+}
 
 void			init_config(t_config *config)
 {

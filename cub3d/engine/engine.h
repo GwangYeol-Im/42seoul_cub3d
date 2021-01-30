@@ -6,7 +6,7 @@
 /*   By: gim <gim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 11:50:36 by gim               #+#    #+#             */
-/*   Updated: 2021/01/27 14:35:27 by gim              ###   ########.fr       */
+/*   Updated: 2021/01/31 00:04:58 by gim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,5 +138,6 @@ void			find_start_pos(t_config *config, t_camera *camera);
 void			find_start_angle(t_config *config, t_camera *camera);
 int				load_textures(t_game *game);
 int				get_tex_color(t_tex *tex, t_pos *pos);
+int				clear_window(t_window *window);
 
 # endif

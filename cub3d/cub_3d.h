@@ -6,7 +6,7 @@
 /*   By: gim <gim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 10:54:10 by imgwang-yeo       #+#    #+#             */
-/*   Updated: 2021/01/27 14:33:49 by gim              ###   ########.fr       */
+/*   Updated: 2021/01/30 16:49:23 by gim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@
 
 void			init_game(t_game *game, int save_opt);
 int				finish_init(t_game *game);
-int				exit_error(char *str);
+int 			exit_error(t_game *game, char *str);
+int    			exit_game(t_game *game, int code);
 
 int				exit_hook(t_game *game);
 int				key_press(int keycode, t_game *game);

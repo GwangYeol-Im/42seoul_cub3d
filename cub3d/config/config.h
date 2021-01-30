@@ -6,7 +6,7 @@
 /*   By: gim <gim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 11:19:11 by imgwang-yeo       #+#    #+#             */
-/*   Updated: 2021/01/27 14:41:00 by gim              ###   ########.fr       */
+/*   Updated: 2021/01/30 16:45:42 by gim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,6 @@ int				parse_texture(t_config *config, int key, char *line);
 int				parse_map(t_config *config, t_list *map_buffer);
 int				check_valid_map(t_config *config);
 char			*check_valid_str(t_config *config, char *content, int x);
+int				clear_config(t_config *config);
 
 #endif

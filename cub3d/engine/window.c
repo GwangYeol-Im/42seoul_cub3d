@@ -6,18 +6,27 @@
 /*   By: gim <gim@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 12:24:40 by gim               #+#    #+#             */
-/*   Updated: 2021/01/27 15:06:17 by gim              ###   ########.fr       */
+/*   Updated: 2021/01/30 17:03:14 by gim              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "engine.h"
+
+int		clear_window(t_window *window)
+{
+	if (window->screen.img)
+		mlx_destroy_image(window->ptr, window->screen.img);
+	if (window->ptr && window->win)
+		mlx_destroy_window(window->ptr, window->win);
+	return (0);
+}
 
 int		init_image(t_window *window, t_image *img)
 {
 	if (!(img->img =
 		mlx_new_image(window->ptr, window->size.x, window->size.y)))
 		return (0);
-	img->ptr = mlx_get_data_addr(
+	img->ptr = (int *)mlx_get_data_addr(
 		img->img, &img->bpp, &img->size_line, &img->endian);
 	return (1);
 }
